@@ -13,8 +13,8 @@ import 'mathquill/build/mathquill.js';
 import 'mathquill/build/mathquill.css';
 
 // mathquill4quill include
-import mathquill4quill from '../mathquill4quill';
-import '../mathquill4quill.css';
+import mathquill4quill from './mathquill4quill';
+import './mathquill4quill.css';
 
 // demo page
 import React from 'react';

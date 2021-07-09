@@ -6,18 +6,15 @@
   "scripts": {
     "start": "react-scripts start",
     "lint.js": "eslint --ext js .",
-    "lint.css": "stylelint \"*.css\"",
-    "lint.prettier": "prettier --write *.js",
-    "lint": "run-s lint.js lint.css lint.md lint.prettier",
     "demo.vanillajs": "shx cp index.{html,js,css} mathquill4quill.{js,css} demo",
     "demo.reactjs": "npm --prefix=reactjs run build",
     "postdemo.reactjs": "shx mv reactjs/build demo/reactjs",
     "predemo": "shx mkdir -p demo",
     "demo": "run-s demo.vanillajs demo.reactjs",
     "prebuild": "shx mkdir -p build",
-    "build.babel": "babel mathquill4quill.js > build/mathquill4quill.js",
+    "build.babel": "babel src/mathquill4quill.js > build/mathquill4quill.js",
     "build.uglify": "uglifyjs --compress --mangle -- build/mathquill4quill.js > build/mathquill4quill.min.js",
-    "build.csso": "csso --input mathquill4quill.css --output build/mathquill4quill.min.css",
+    "build.csso": "csso --input src/mathquill4quill.css --output build/mathquill4quill.min.css",
     "build": "run-s build.babel build.uglify build.csso",
     "postbuild": "shx rm build/mathquill4quill.js"
   },
@@ -29,11 +26,6 @@
     "csso-cli": "^3.0.0",
     "eslint": "^7.11.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^2.2.1",
-    "prettier-eslint": "^12.0.0",
-    "prettier-eslint-cli": "^5.0.0",
-    "reload": "^3.0.1",
-    "serve": "^11.0.2",
     "shx": "^0.3.3",
     "uglify-js": "^3.6.0",
     "jquery": "^3.4.1",
@@ -44,11 +36,23 @@
     "react-quill": "^1.3.5",
     "react-scripts": "4.0.3"
   },
-  "main": "mathquill4quill.js",
+  "main": "src/mathquill4quill.js",
   "files": [
     "build/mathquill4quill.min.css",
     "build/mathquill4quill.min.js",
-    "mathquill4quill.css",
-    "mathquill4quill.js"
-  ]
+    "src/mathquill4quill.css",
+    "src/mathquill4quill.js"
+  ],
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

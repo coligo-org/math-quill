@@ -1,5 +1,5 @@
 {
-  "name": "mathquill-tabs",
+  "name": "@coligo-lms/mathquill-tabs",
   "version": "2.3.0",
   "license": "Apache-2.0",
   "private": true,

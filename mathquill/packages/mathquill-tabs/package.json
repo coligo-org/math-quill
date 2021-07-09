@@ -1,13 +1,13 @@
 {
-  "name": "mathquill4quill",
+  "name": "mathquill-tabs",
+  "version": "2.3.0",
   "license": "Apache-2.0",
+  "private": true,
   "scripts": {
-    "release": "release-it",
     "start.reactjs": "npm --prefix=reactjs start",
     "start": "reload --port 8080 --browser --dir .",
     "lint.js": "eslint --ext js .",
     "lint.css": "stylelint \"*.css\"",
-    "lint.md": "markdownlint \"*.md\"",
     "lint.prettier": "prettier --write *.js",
     "lint": "run-s lint.js lint.css lint.md lint.prettier",
     "demo.vanillajs": "shx cp index.{html,js,css} mathquill4quill.{js,css} demo",
@@ -20,25 +20,19 @@
     "build.uglify": "uglifyjs --compress --mangle -- build/mathquill4quill.js > build/mathquill4quill.min.js",
     "build.csso": "csso --input mathquill4quill.css --output build/mathquill4quill.min.css",
     "build": "run-s build.babel build.uglify build.csso",
-    "postbuild": "shx rm build/mathquill4quill.js",
-    "test": "concurrently --kill-others --success first \"serve -n -l 8000\" \"nightwatch -e chrome tests\""
+    "postbuild": "shx rm build/mathquill4quill.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
-    "chromedriver": "^89.0.0",
     "concurrently": "^4.1.1",
     "csso-cli": "^3.0.0",
     "eslint": "^7.11.0",
-    "eslint-plugin-react-app": "^6.2.2",
-    "markdownlint-cli": "^0.22.0",
-    "nightwatch": "^1.1.12",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.2.1",
     "prettier-eslint": "^12.0.0",
     "prettier-eslint-cli": "^5.0.0",
-    "release-it": "^12.4.3",
     "reload": "^3.0.1",
     "serve": "^11.0.2",
     "shx": "^0.3.3",
@@ -46,19 +40,11 @@
     "stylelint-config-standard": "^20.0.0",
     "uglify-js": "^3.6.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/c-w/mathquill4quill"
-  },
-  "version": "2.3.0",
   "main": "mathquill4quill.js",
   "files": [
     "build/mathquill4quill.min.css",
     "build/mathquill4quill.min.js",
     "mathquill4quill.css",
     "mathquill4quill.js"
-  ],
-  "publishConfig": {
-    "access": "public"
-  }
+  ]
 }

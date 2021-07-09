@@ -1,5 +1,4 @@
 /* eslint-env browser, commonjs */
-let show = null;
 
 window.mathquill4quill = function (dependencies) {
   dependencies = dependencies || {};
@@ -205,189 +204,29 @@ window.mathquill4quill = function (dependencies) {
     }
 
     function newOperatorButtons() {
-      const operators = [
-        ['\\\\a{^2}', '^2'],
-        ['\\lvert{x}\\rvert', '\\mid'],
-        ['\\frac{dx}{dy}', '\\dfrac{dx}{dy}'],
-        [
-          '\\frac{\\partial{x}}{\\partial{y}}',
-          '\\dfrac{\\partial{x}}{\\partial{y}}',
-        ],
+      /*
+       structured as
+       {
+         "Basic": {
+            buttons: [
+              [["\\pm","\\pm"],["\\pm","\\pm"]],
+            ],
+        },
+         "Advanced": {
+            buttons: [
+              [["\\pm","\\pm"],["\\pm","\\pm"]],
+            ],
+        },
+       }
+      */
+      const operators = options.operators || [];
 
-        ['\\\\a{^x}', '^'],
-        ['\\int', '\\int'],
-        ['\\oint', '\\oint'],
-        ['\\sqrt{x}', '\\sqrt'],
-
-        ['\\\\a{_x}', '_'],
-        ['\\log{_x}', '\\log_'],
-        ['\\lim{_x}', '\\lim_'],
-        ['\\overleftarrow{AB}', '\\overleftarrow'],
-
-        ['\\frac{x}{y}', '\\frac'],
-        ['\\overline{xy}', '\\overline'],
-        ['\\overrightarrow{AB}', '\\overrightarrow'],
-        ['\\approx', '\\approx'],
-
-        ['+', '+'],
-        ['\\times', '\\times'],
-        ['<', '<'],
-        ['\\backsim', '\\backsim'],
-
-        ['-', '-'],
-        ['\\div', '\\div'],
-        ['>', '>'],
-        ['\\approx', '\\approx'],
-
-        ['\\gtrapprox', '\\gtrapprox'],
-        ['\\neq', '\\neq'],
-        ['\\ge', '\\ge'],
-        ['\\cong', '\\cong'],
-
-        ['\\pm', '\\pm'],
-        ['=', '='],
-        ['\\le', '\\le'],
-        ['\\approxeq', '\\approxeq'],
-      ];
-      const operators2 = [
-        ['\\alpha', '\\alpha'],
-        ['\\beta', '\\beta'],
-        ['\\Gamma', '\\Gamma'],
-        ['\\Delta', '\\Delta'],
-
-        ['\\epsilon', '\\epsilon'],
-        ['\\zeta', '\\zeta'],
-        ['\\eta', '\\eta'],
-        ['\\Theta', '\\Theta'],
-
-        ['\\iota', '\\iota'],
-        ['\\kappa', '\\kappa'],
-        ['\\mu', '\\mu'],
-        ['\\Pi', '\\Pi'],
-
-        ['\\rho', '\\rho'],
-        ['\\Sigma', '\\Sigma'],
-        ['\\Upsilon', '\\Upsilon'],
-        ['\\Phi', '\\Phi'],
-
-        ['\\Psi', '\\Psi'],
-        ['\\Omega', '\\Omega'],
-        ['\\delta', '\\delta'],
-        ['\\lambda', '\\lambda'],
-      ];
-      const operators3 = [
-        ['\\sqrt[n]{x}', '\\nthroot'],
-        ['\\coprod^{s}_{x}{d}', '\\coprod'],
-        ['\\sum^{s}_{x}{d}', '\\sum'],
-        ['\\degree', '\\degree'],
-
-        ['\\binom{n}{k}', '\\binom'],
-        ['\\prod^{s}_{x}{d}', '\\prod'],
-        ['\\int^{s}_{x}{d}', '\\int'],
-        ['+ c', '+ c'],
-
-        ['\\subset', '\\subset'],
-        ['\\land', '\\land'],
-        ['\\exists', '\\exists'],
-        ['\\in', '\\in'],
-
-        ['\\supset', '\\supset'],
-        ['\\lor', '\\lor'],
-        ['\\nexists', '\\nexists'],
-        ['\\notin', '\\notin'],
-
-        // edit here
-        ['\\subseteq', '\\subseteq'],
-
-        ['\\because', '\\because'],
-
-        ['\\therefore', '\\therefore'],
-        ['\\forall', '\\forall'],
-        ['\\supseteq', '\\supseteq'],
-        ['\\to', '\\to'],
-        ['\\gets', '\\gets'],
-
-        ['\\implies', '\\implies'],
-        ['\\impliedby', '\\impliedby'],
-        ['\\iff', '\\iff'],
-        ['\\leftrightarrow', '\\leftrightarrow'],
-
-        ['\\uarr', '\\uarr'],
-        ['\\Updownarrow', '\\Updownarrow'],
-        ['\\updownarrow', '\\updownarrow'],
-      ];
-      const basicOperator2 = [
-        ['\\\\a{^2}', '^2'],
-        ['\\lvert{x}\\rvert', '\\mid'],
-        ['\\frac{dx}{dy}', '\\dfrac{dx}{dy}'],
-        [
-          '\\frac{\\partial{x}}{\\partial{y}}',
-          '\\dfrac{\\partial{x}}{\\partial{y}}',
-        ],
-
-        ['\\\\a{^x}', '^'],
-        ['\\int', '\\int'],
-        ['\\oint', '\\oint'],
-        ['\\sqrt{x}', '\\sqrt'],
-
-        ['\\\\a{_x}', '_'],
-        ['\\log{_x}', '\\log_'],
-        ['\\lim{_x}', '\\lim_'],
-        ['\\overleftarrow{AB}', '\\overleftarrow'],
-
-        ['\\frac{x}{y}', '\\frac'],
-        ['\\overline{xy}', '\\overline'],
-        ['\\overrightarrow{AB}', '\\overrightarrow'],
-        ['\\approx', '\\approx'],
-
-        ['+', '+'],
-        ['\\times', '\\times'],
-        ['<', '<'],
-        ['\\backsim', '\\backsim'],
-
-        ['-', '-'],
-        ['\\div', '\\div'],
-        ['>', '>'],
-        ['\\approx', '\\approx'],
-
-        ['\\gtrapprox', '\\gtrapprox'],
-        ['\\neq', '\\neq'],
-        ['\\ge', '\\ge'],
-        ['\\cong', '\\cong'],
-
-        ['\\pm', '\\pm'],
-        ['=', '='],
-        ['\\le', '\\le'],
-        ['\\approxeq', '\\approxeq'],
-      ];
       let mainContainer = null;
       let headerContainer = null;
+      let buttonContainer = null;
       let footer = null;
       let container = null;
-      let container2 = null;
-      let container3 = null;
-      function applyOperatorButtonStyles(button) {
-        button.setAttribute('class', 'mathquill4quill-operator-button');
-      }
-      function applyOperatorButtonStyles2(button) {
-        button.setAttribute('class', 'mathquill4quill-operator-button2');
-      }
-      function applyOperatorButtonStyles3(button) {
-        button.setAttribute('class', 'mathquill4quill-operator-button3');
-      }
 
-      function applyOperatorContainerStyles(container) {
-        container.setAttribute('class', 'mathquill4quill-operator-container');
-        container.setAttribute('id', 'first');
-      }
-      function applyOperatorContainerStyles2(container) {
-        container.setAttribute('class', 'mathquill4quill-operator-container2');
-        container.setAttribute('id', 'second');
-      }
-      function applyOperatorContainerStyles3(container) {
-        container.setAttribute('class', 'mathquill4quill-operator-container3');
-        container.setAttribute('id', 'third');
-      }
       function applyOperatorMainContainerStyles(container) {
         container.setAttribute(
           'class',
@@ -403,12 +242,26 @@ window.mathquill4quill = function (dependencies) {
           'mathquill4quill-operator-header-container',
         );
       }
-      function applyBasicOperator2ButtonStyles(container) {
-        container.setAttribute(
-          'class',
-          'mathquill4quill-operator-basic-operator2',
-        );
-      }
+      Object.keys(operators).map(function (key) {
+        operators[
+          key
+        ].applyOperatorButtonStyles = function applyOperatorButtonStyles(
+          button,
+        ) {
+          button.setAttribute('class', 'mathquill4quill-operator-button');
+        };
+        operators[
+          key
+        ].applyOperatorContainerStyles = function applyOperatorContainerStyles(
+          container,
+        ) {
+          container.setAttribute(
+            'class',
+            'mathquill4quill-operator-container hidden',
+          );
+          container.setAttribute('id', key);
+        };
+      });
 
       function createOperatorButton(element, mqField) {
         const displayOperator = element[0];
@@ -422,8 +275,6 @@ window.mathquill4quill = function (dependencies) {
           throwOnError: false,
         });
         button.onclick = () => {
-          mqField.cmd(operator);
-          mqField.focus();
           if (isOperatorCommand(operator)) {
             mqField.cmd(operator);
           } else {
@@ -440,7 +291,6 @@ window.mathquill4quill = function (dependencies) {
           if (container != null || operators.length === 0) {
             return;
           }
-          if (!show) return;
           const tooltip = getTooltip();
           mainContainer = document.createElement('div');
           applyOperatorMainContainerStyles(mainContainer);
@@ -455,85 +305,52 @@ window.mathquill4quill = function (dependencies) {
           //inside nav create unordered list
           const navbar = document.createElement('ul');
           navContainer.appendChild(navbar);
-          //inside ul create a three list item then append all anchor tags below
-          const navlist = document.createElement('li');
-          navbar.appendChild(navlist);
-
-          const navlist2 = document.createElement('li');
-          navbar.appendChild(navlist2);
-
-          const navlist3 = document.createElement('li');
-          navbar.appendChild(navlist3);
 
           // scrollables all to footer
           footer = document.createElement('div');
           applyOperatorFooterStyles(footer);
           mainContainer.appendChild(footer);
+          Object.keys(operators).map(function (key) {
+            //inside ul create a three list item then append all anchor tags below
+            const navList = document.createElement('li');
+            navbar.appendChild(navList);
+            const basicLink = document.createElement('a');
+            const basicText = document.createTextNode(key);
+            basicLink.setAttribute('id', key);
+            basicLink.appendChild(basicText);
+            basicLink.onclick = () => {
+              operators[key].buttonLink.classList.add('selected');
+              operators[key].container.classList.remove('hidden');
+              Object.keys(operators).map(function (otherKey) {
+                if (key === otherKey) return;
+                operators[otherKey].buttonLink.classList.remove('selected');
+                operators[otherKey].container.classList.add('hidden');
+              });
+            };
+            navList.appendChild(basicLink);
 
-          // Basic tab
-          const basicLink = document.createElement('a');
-          const basicText = document.createTextNode('Basic');
-          basicLink.setAttribute('href', '#first');
-          basicLink.setAttribute('id', 'basicLink');
-          basicLink.appendChild(basicText);
-          navlist.appendChild(basicLink);
+            container = document.createElement('div');
+            operators[key].applyOperatorContainerStyles(container);
+            buttonContainer = document.createElement('div');
+            container.appendChild(buttonContainer);
+            footer.appendChild(container);
 
-          // Greek tab
-          const greekLink = document.createElement('a');
-          const greekText = document.createTextNode('Greek');
-          greekLink.setAttribute('href', '#second');
-          greekLink.appendChild(greekText);
-          navlist2.appendChild(greekLink);
+            operators[key].container = container;
+            operators[key].buttonLink = basicLink;
 
-          //third tab
-          const advanceLink = document.createElement('a');
-          const advanceText = document.createTextNode('Advanced');
-          advanceLink.setAttribute('href', '#third');
-          advanceLink.appendChild(advanceText);
-          navlist3.appendChild(advanceLink);
-
-          container = document.createElement('div');
-          container2 = document.createElement('div');
-          container3 = document.createElement('div');
-          applyOperatorContainerStyles(container);
-          applyOperatorContainerStyles2(container2);
-          applyOperatorContainerStyles3(container3);
-          // buttonContainer = document.createElement("div")
-          // container.appendChild(buttonContainer)
-
-          // buttonContainer2 = document.createElement("div")
-          // container.appendChild(buttonContainer2)
-
-          // buttonContainer3 = document.createElement("div")
-          // container.appendChild(buttonContainer3)
-
-          footer.appendChild(container);
-          footer.appendChild(container2);
-          footer.appendChild(container3);
-
-          operators.forEach(element => {
-            const button = createOperatorButton(element, mqField);
-            applyOperatorButtonStyles(button);
-            container.appendChild(button);
+            // create the buttons
+            operators[key].buttons.forEach(element => {
+              const button = createOperatorButton(element, mqField);
+              operators[key].applyOperatorButtonStyles(button);
+              container.appendChild(button);
+            });
           });
-          operators2.forEach(element => {
-            const button2 = createOperatorButton(element, mqField);
-            applyOperatorButtonStyles2(button2);
-            container2.appendChild(button2);
-          });
-          operators3.forEach(element => {
-            const button3 = createOperatorButton(element, mqField);
-            applyOperatorButtonStyles3(button3);
-            container3.appendChild(button3);
-          });
-
-          basicOperator2.forEach(element => {
-            const basicOperator2Buttons = createOperatorButton(
-              element,
-              mqField,
-            );
-            applyBasicOperator2ButtonStyles(basicOperator2Buttons);
-          });
+          operators[Object.keys(operators)[0]].buttonLink.classList.add(
+            'selected',
+          );
+          operators[Object.keys(operators)[0]].container.classList.remove(
+            'hidden',
+          );
           tooltip.appendChild(mainContainer);
         },
         destroy() {
@@ -543,10 +360,6 @@ window.mathquill4quill = function (dependencies) {
 
           container.remove();
           container = null;
-          container2.remove();
-          container2 = null;
-          container3.remove();
-          container3 = null;
           mainContainer.remove();
           mainContainer = null;
         },
@@ -655,26 +468,6 @@ window.mathquill4quill = function (dependencies) {
         const mqField = mqInput.render();
         operatorButtons.render(mqField);
         historyListButtons.render(mqField);
-        const initialSelect = document.getElementById('basicLink');
-        initialSelect.classList.add('selected');
-        document.addEventListener(
-          'click',
-          function (event) {
-            // If the clicked element doesn't have the right selector, bail
-            const el = document.getElementsByClassName('ql-tooltip')[0];
-            if (el) {
-              el.style = 'position: absolute; top: 0; z-index: 9999;';
-            }
-
-            if (!event.target.matches('a')) return;
-            const elems = document.querySelectorAll('a');
-            for (let i = 0; i < elems.length; i++) {
-              elems[i].classList.remove('selected');
-            }
-            event.target.classList.add('selected');
-          },
-          false,
-        );
       } else {
         mqInput.destroy();
         operatorButtons.destroy();
@@ -694,11 +487,6 @@ window.mathquill4quill = function (dependencies) {
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = window.mathquill4quill;
 }
-// eslint-disable-next-line no-unused-vars
-document.addEventListener('click', event => {
-  const toggle = document.getElementById('showOperators');
-  show = toggle.checked;
-});
 // for backwards compatibility with prototype-based API
 if (window.Quill) {
   window.Quill.prototype.enableMathQuillFormulaAuthoring = function (options) {

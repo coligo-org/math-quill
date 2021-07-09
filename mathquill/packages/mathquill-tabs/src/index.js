@@ -1,23 +1,11 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom";
-import Editor from "./Editor";
-import "./index.css";
-
-const CUSTOM_OPERATORS = [
-  ["\\pm", "\\pm"],
-  ["\\sqrt{x}", "\\sqrt"],
-  ["\\sqrt[3]{x}", "\\sqrt[3]{}"],
-  ["\\sqrt[n]{x}", "\\nthroot"],
-  ["\\frac{x}{y}", "\\frac"],
-  ["\\sum^{s}_{x}{d}", "\\sum"],
-  ["\\prod^{s}_{x}{d}", "\\prod"],
-  ["\\coprod^{s}_{x}{d}", "\\coprod"],
-  ["\\int^{s}_{x}{d}", "\\int"],
-  ["\\binom{n}{k}", "\\binom"]
-];
+import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
+import Editor from './Editor';
+import CUSTOM_OPERATORS from './operators';
+import './index.css';
 
 function Index() {
-  const [operators, setOperators] = useState([]);
+  const [operators, setOperators] = useState(CUSTOM_OPERATORS);
   const [displayHistory, setDisplayHistory] = useState(false);
 
   const toggleDisplayHistory = event => {
@@ -36,7 +24,12 @@ function Index() {
 
       <label>
         Use custom operator buttons:
-        <input type="checkbox" className="option" onChange={toggleOperators} />
+        <input
+          type="checkbox"
+          className="option"
+          checked
+          onChange={toggleOperators}
+        />
       </label>
 
       <label>
@@ -67,5 +60,5 @@ ReactDOM.render(
   <React.StrictMode>
     <Index />
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root'),
 );

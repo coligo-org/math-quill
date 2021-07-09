@@ -9,7 +9,7 @@
 
 .mathquill4quill-operator-button {
   margin: 2px;
-  width: 50px;
+  min-width: 50px;
   height: 50px;
   background-color: afafaf;
   border-color: #afafaf;
@@ -82,7 +82,6 @@ nav li {
 }
 
 .mathquill4quill-operator-footer {
-  width: 450px;
   max-height: 300px;
   display: flex;
   overflow-x: auto;
@@ -90,35 +89,16 @@ nav li {
 }
 
 .mathquill4quill-operator-container {
-  min-width: 500px;
-  max-height: 250px;
+  max-width: 500px;
+  height: 300px;
   display: flex;
-  flex-direction: column;
   flex-wrap: wrap;
   gap: 0;
-  margin-right: 10px;
   padding: 10px;
 }
 
-.mathquill4quill-operator-container2 {
-  min-width: 310px;
-  height: 250px;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  gap: 0;
-  margin-right: 10px;
-  padding: 10px;
-}
-
-.mathquill4quill-operator-container3 {
-  min-width: 250px;
-  height: 250px;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  gap: 0;
-  padding: 10px;
+.hidden {
+  display: none;
 }
 
 .mathquill4quill-history-button {

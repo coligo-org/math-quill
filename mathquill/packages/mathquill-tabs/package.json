@@ -4,8 +4,7 @@
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
-    "start.reactjs": "npm --prefix=reactjs start",
-    "start": "reload --port 8080 --browser --dir .",
+    "start": "react-scripts start",
     "lint.js": "eslint --ext js .",
     "lint.css": "stylelint \"*.css\"",
     "lint.prettier": "prettier --write *.js",
@@ -36,9 +35,14 @@
     "reload": "^3.0.1",
     "serve": "^11.0.2",
     "shx": "^0.3.3",
-    "stylelint": "^13.2.0",
-    "stylelint-config-standard": "^20.0.0",
-    "uglify-js": "^3.6.0"
+    "uglify-js": "^3.6.0",
+    "jquery": "^3.4.1",
+    "katex": "^0.13.0",
+    "mathquill": "^0.10.1",
+    "react": "v16.13.0",
+    "react-dom": "v16.13.0",
+    "react-quill": "^1.3.5",
+    "react-scripts": "4.0.3"
   },
   "main": "mathquill4quill.js",
   "files": [

@@ -38,6 +38,10 @@ window.mathquill4quill = function (dependencies) {
     referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling)
   }
 
+  function isOperatorCommand(operator) {
+    return /^\\[A-Za-z]+$/.test(operator);
+  }
+
   function enableMathQuillFormulaAuthoring(quill, options) {
     options = options || {}
     function areAllDependenciesMet() {
@@ -411,8 +415,9 @@ window.mathquill4quill = function (dependencies) {
         const displayOperator = element[0]
         const operator = element[1]
 
-        const button = document.createElement('button')
-        button.setAttribute('type', 'button')
+        const button = document.createElement("button");
+        button.setAttribute("type", "button");
+        button.setAttribute("data-value", operator);
 
         katex.render(displayOperator, button, {
           throwOnError: false,
@@ -420,7 +425,13 @@ window.mathquill4quill = function (dependencies) {
         button.onclick = () => {
           mqField.cmd(operator)
           mqField.focus()
-        }
+          if (isOperatorCommand(operator)) {
+            mqField.cmd(operator);
+          } else {
+            mqField.write(operator);
+          }
+          mqField.focus();
+        };
 
         return button
       }

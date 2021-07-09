@@ -1,6 +1,6 @@
 # MathQuill 4 Quill with Basic, Greek, and Advanced Tabs
 
-[![Build Status](https://clewolff.visualstudio.com/mathquill4quill/_apis/build/status/c-w.mathquill4quill?branchName=master)](https://clewolff.visualstudio.com/mathquill4quill/_build/latest?definitionId=5&branchName=master)
+[![Build Status](https://github.com/c-w/mathquill4quill/workflows/CI/badge.svg)](https://github.com/c-w/mathquill4quill/actions?query=workflow%3Aci)
 [![Version](https://img.shields.io/npm/v/mathquill4quill.svg)](https://www.npmjs.com/package/mathquill4quill)
 [![Code Style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/c-w/mathquill4quill/blob/master/LICENSE.txt)
@@ -17,7 +17,7 @@ This module adds support for rich math authoring to the [Quill](http://quilljs.c
 
 ### Plain Javascript
 
-This module depends on [MathQuill](http://docs.mathquill.com/en/latest/Getting_Started/), [Quill](https://quilljs.com/docs/quickstart/) and [KaTeX](https://github.com/Khan/KaTeX#usage), so you'll need to add references to their JS and CSS files in addition to adding a reference to `mathquill4quill.js` and `mathquill4quill.css`. Official builds as well as minified assets can be found on the [releases page](https://github.com/c-w/mathquill4quill/releases).
+This module depends on [MathQuill](https://docs.mathquill.com/en/latest/Getting_Started/#download-and-load), [Quill](https://quilljs.com/docs/quickstart/) and [KaTeX](https://katex.org/docs/browser.html#starter-template), so you'll need to add references to their JS and CSS files in addition to adding a reference to `mathquill4quill.js` and `mathquill4quill.css`. Official builds as well as minified assets can be found on the [releases page](https://github.com/c-w/mathquill4quill/releases).
 
 Next, initialize your Quill object and load the formula module:
 
@@ -42,38 +42,11 @@ var enableMathQuillFormulaAuthoring = mathquill4quill();
 enableMathQuillFormulaAuthoring(quill);
 ```
 
+A working demo application can be found [here](./index.html) ([live](https://justamouse.com/mathquill4quill)).
+
 ### React
 
-To integrate this module with [react-quill](https://github.com/zenoamaro/react-quill), add references to the JS and CSS files of MathQuill and KaTeX to your application. Next, you can enable the mathquill formula editor on your ReactQuill component:
-
-```javascript
-import React from 'react';
-import ReactQuill, { Quill } from 'react-quill';
-import mathquill4quill from 'mathquill4quill';
-import 'mathquill4quill/mathquill4quill.css';
-
-class App extends React.Component {
-  reactQuill = React.createRef();
-
-  componentDidMount() {
-    const enableMathQuillFormulaAuthoring = mathquill4quill({ Quill });
-    enableMathQuillFormulaAuthoring(this.reactQuill.current.editor);
-  }
-
-  render() {
-    return (
-      <ReactQuill
-        ref={this.reactQuill}
-        modules={{
-          formula: true,
-          toolbar: [["formula", /* ... other toolbar items here ... */]]
-        }}
-        {/* ... other properties here ... */}
-      />
-    );
-  }
-}
-```
+A demo application integrating this module with [react-quill](https://github.com/zenoamaro/react-quill) can be found [here](./reactjs) ([live](https://justamouse.com/mathquill4quill/reactjs)).
 
 ## Optional features
 

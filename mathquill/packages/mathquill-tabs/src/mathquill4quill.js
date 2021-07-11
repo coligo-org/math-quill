@@ -1,4 +1,4 @@
-/* eslint-env browser, commonjs */
+import custom_operators from './operators';
 
 window.mathquill4quill = function (dependencies) {
   dependencies = dependencies || {};
@@ -484,12 +484,5 @@ window.mathquill4quill = function (dependencies) {
   return enableMathQuillFormulaAuthoring;
 };
 
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = window.mathquill4quill;
-}
-// for backwards compatibility with prototype-based API
-if (window.Quill) {
-  window.Quill.prototype.enableMathQuillFormulaAuthoring = function (options) {
-    window.mathquill4quill()(this, options);
-  };
-}
+export const operators = custom_operators;
+export const mathquill4quill = window.mathquill4quill;

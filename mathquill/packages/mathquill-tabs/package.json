@@ -1,14 +1,14 @@
 {
   "name": "@coligo-lms/mathquill-tabs",
-  "version": "2.3.0",
+  "version": "0.0.1",
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
-    "build.babel": "babel src/mathquill4quill.js src/operators.js -d dist",
-    "build.css": "shx cp src/mathquill4quill.css dist/mathquill4quill.css",
+    "build:js": "babel src/mathquill4quill.js src/operators.js -d dist",
+    "build:css": "shx cp src/mathquill4quill.css dist/mathquill4quill.css",
     "prebuild": "shx mkdir -p dist",
-    "transpile": "run-s prebuild build.babel build.css",
+    "transpile": "run-s prebuild build:js build:css",
     "transpile:watch": "nodemon",
     "clean": "rm -rf node_modules && rm -rf dist"
   },
@@ -31,17 +31,5 @@
   "main": "dist/mathquill4quill.js",
   "files": [
     "dist"
-  ],
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  ]
 }

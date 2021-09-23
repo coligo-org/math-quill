@@ -1,7 +1,7 @@
-import custom_operators from './operators';
+import CUSTOM_OPERATORS from './operators';
 
-window.mathquill4quill = function (dependencies) {
-  dependencies = dependencies || {};
+window.mathquill4quill = deps => {
+  const dependencies = deps || {};
 
   const Quill = dependencies.Quill || window.Quill;
   const MathQuill = dependencies.MathQuill || window.MathQuill;
@@ -40,8 +40,8 @@ window.mathquill4quill = function (dependencies) {
     return /^\\[A-Za-z]+$/.test(operator);
   }
 
-  function enableMathQuillFormulaAuthoring(quill, options) {
-    options = options || {};
+  function enableMathQuillFormulaAuthoring(quill, config) {
+    const options = config || {};
     function areAllDependenciesMet() {
       if (!Quill) {
         console.log('Quill.js not loaded'); // eslint-disable-line no-console
@@ -71,6 +71,10 @@ window.mathquill4quill = function (dependencies) {
       return true;
     }
 
+    if (!areAllDependenciesMet()) {
+      return;
+    }
+
     function fetchHistoryList(key) {
       try {
         return JSON.parse(localStorage.getItem(key)) || [];
@@ -78,6 +82,12 @@ window.mathquill4quill = function (dependencies) {
         return [];
       }
     }
+
+    const historyCacheKey =
+      options.historyCacheKey || '__mathquill4quill_historylist_cache__';
+    const historyList = fetchHistoryList(historyCacheKey);
+    const historySize = options.historySize || 10;
+    const displayHistory = options.displayHistory || false;
 
     function addItemToHistoryList(key) {
       const item = getCacheItem(key);
@@ -119,36 +129,36 @@ window.mathquill4quill = function (dependencies) {
       let mqField = null;
       let latexInputStyle = null;
 
-      function applyMathquillInputStyles(mqInput) {
-        mqInput.setAttribute('class', 'mathquill4quill-mathquill-input');
+      function applyMathquillInputStyles(inputField) {
+        inputField.setAttribute('class', 'mathquill4quill-mathquill-input');
       }
 
       function applyLatexInputStyles(latexInput) {
         latexInput.setAttribute('class', 'mathquill4quill-latex-input');
       }
 
-      function syncMathquillToQuill(latexInput, saveButton) {
+      function syncMathquillToQuill(setLatexInputValue, saveButton) {
         const handlers =
           mathQuillConfig.handlers == null ? {} : mathQuillConfig.handlers;
         mathQuillConfig.handlers = {
           ...handlers,
           edit() {
             const latex = mqField.latex();
-            latexInput.value = latex;
+            setLatexInputValue(latex);
             setCacheItem(cacheKey, latex);
           },
           enter() {
             saveButton.click();
           },
         };
-        const mqField = MathQuill.getInterface(2).MathField(
+        const mathQuillField = MathQuill.getInterface(2).MathField(
           mqInput,
           mathQuillConfig,
         );
 
         const cachedLatex = getCacheItem(cacheKey);
         if (cachedLatex) {
-          mqField.latex(cachedLatex);
+          mathQuillField.latex(cachedLatex);
         }
 
         saveButton.addEventListener('click', () => {
@@ -156,21 +166,21 @@ window.mathquill4quill = function (dependencies) {
           removeCacheItem(cacheKey);
         });
 
-        return mqField;
+        return mathQuillField;
       }
 
-      function autofocusFormulaField(mqField) {
+      function autofocusFormulaField(mathQuillField) {
         if (!autofocus) {
           return;
         }
 
-        window.setTimeout(() => mqField.focus(), 1);
+        window.setTimeout(() => mathQuillField.focus(), 1);
       }
 
       return {
         render() {
           if (mqInput != null) {
-            return;
+            return null;
           }
 
           const latexInput = getLatexInput();
@@ -181,8 +191,10 @@ window.mathquill4quill = function (dependencies) {
 
           latexInputStyle = latexInput.className;
           applyLatexInputStyles(latexInput);
-
-          mqField = syncMathquillToQuill(latexInput, saveButton);
+          const setLatexInputValue = value => {
+            latexInput.value = value;
+          };
+          mqField = syncMathquillToQuill(setLatexInputValue, saveButton);
           autofocusFormulaField(mqField);
 
           insertAfter(mqInput, latexInput);
@@ -225,7 +237,7 @@ window.mathquill4quill = function (dependencies) {
       let headerContainer = null;
       let buttonContainer = null;
       let footer = null;
-      let container = null;
+      let inputContainer = null;
 
       function applyOperatorMainContainerStyles(container) {
         container.setAttribute(
@@ -242,7 +254,7 @@ window.mathquill4quill = function (dependencies) {
           'mathquill4quill-operator-header-container',
         );
       }
-      Object.keys(operators).map(function (key) {
+      Object.keys(operators).forEach(key => {
         operators[
           key
         ].applyOperatorButtonStyles = function applyOperatorButtonStyles(
@@ -288,7 +300,7 @@ window.mathquill4quill = function (dependencies) {
 
       return {
         render(mqField) {
-          if (container != null || operators.length === 0) {
+          if (inputContainer != null || operators.length === 0) {
             return;
           }
           const tooltip = getTooltip();
@@ -310,7 +322,7 @@ window.mathquill4quill = function (dependencies) {
           footer = document.createElement('div');
           applyOperatorFooterStyles(footer);
           mainContainer.appendChild(footer);
-          Object.keys(operators).map(function (key) {
+          Object.keys(operators).forEach(key => {
             // inside ul create a three list item then append all anchor tags below
             const navList = document.createElement('li');
             navbar.appendChild(navList);
@@ -321,7 +333,7 @@ window.mathquill4quill = function (dependencies) {
             basicLink.onclick = () => {
               operators[key].buttonLink.classList.add('selected');
               operators[key].container.classList.remove('hidden');
-              Object.keys(operators).map(function (otherKey) {
+              Object.keys(operators).forEach(otherKey => {
                 if (key === otherKey) return;
                 operators[otherKey].buttonLink.classList.remove('selected');
                 operators[otherKey].container.classList.add('hidden');
@@ -329,20 +341,20 @@ window.mathquill4quill = function (dependencies) {
             };
             navList.appendChild(basicLink);
 
-            container = document.createElement('div');
-            operators[key].applyOperatorContainerStyles(container);
+            inputContainer = document.createElement('div');
+            operators[key].applyOperatorContainerStyles(inputContainer);
             buttonContainer = document.createElement('div');
-            container.appendChild(buttonContainer);
-            footer.appendChild(container);
+            inputContainer.appendChild(buttonContainer);
+            footer.appendChild(inputContainer);
 
-            operators[key].container = container;
+            operators[key].container = inputContainer;
             operators[key].buttonLink = basicLink;
 
             // create the buttons
             operators[key].buttons.forEach(element => {
               const button = createOperatorButton(element, mqField);
               operators[key].applyOperatorButtonStyles(button);
-              container.appendChild(button);
+              inputContainer.appendChild(button);
             });
           });
           operators[Object.keys(operators)[0]].buttonLink.classList.add(
@@ -354,12 +366,12 @@ window.mathquill4quill = function (dependencies) {
           tooltip.appendChild(mainContainer);
         },
         destroy() {
-          if (container == null) {
+          if (inputContainer == null) {
             return;
           }
 
-          container.remove();
-          container = null;
+          inputContainer.remove();
+          inputContainer = null;
           mainContainer.remove();
           mainContainer = null;
         },
@@ -439,20 +451,7 @@ window.mathquill4quill = function (dependencies) {
       };
     }
 
-    // If tooltip hangs below Quill div, Quill will position tooltip in bad place if function is clicked twice
-    // This addresses the position issue
-
-    if (!areAllDependenciesMet()) {
-      return;
-    }
-
     const tooltip = getTooltip();
-
-    const historyCacheKey =
-      options.historyCacheKey || '__mathquill4quill_historylist_cache__';
-    const historyList = fetchHistoryList(historyCacheKey);
-    const historySize = options.historySize || 10;
-    const displayHistory = options.displayHistory || false;
 
     const mqInput = newMathquillInput();
     const operatorButtons = newOperatorButtons();
@@ -484,5 +483,5 @@ window.mathquill4quill = function (dependencies) {
   return enableMathQuillFormulaAuthoring;
 };
 
-export const operators = custom_operators;
+export const operators = CUSTOM_OPERATORS;
 export const { mathquill4quill } = window;

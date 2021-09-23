@@ -299,10 +299,10 @@ window.mathquill4quill = function (dependencies) {
           headerContainer = document.createElement('div');
           applyOperatorHeaderContainerStyles(headerContainer);
           mainContainer.appendChild(headerContainer);
-          //create a nav
+          // create a nav
           const navContainer = document.createElement('nav');
           headerContainer.appendChild(navContainer);
-          //inside nav create unordered list
+          // inside nav create unordered list
           const navbar = document.createElement('ul');
           navContainer.appendChild(navbar);
 
@@ -311,7 +311,7 @@ window.mathquill4quill = function (dependencies) {
           applyOperatorFooterStyles(footer);
           mainContainer.appendChild(footer);
           Object.keys(operators).map(function (key) {
-            //inside ul create a three list item then append all anchor tags below
+            // inside ul create a three list item then append all anchor tags below
             const navList = document.createElement('li');
             navbar.appendChild(navList);
             const basicLink = document.createElement('a');
@@ -417,7 +417,7 @@ window.mathquill4quill = function (dependencies) {
           const container = document.createElement('div');
           applyHistoryContainerStyles(container);
           const header = document.createElement('p');
-          header.innerHTML = 'Past formulas (max ' + historySize + ')';
+          header.innerHTML = `Past formulas (max ${historySize})`;
           historyDiv.appendChild(header);
 
           history.forEach(element => {
@@ -485,4 +485,4 @@ window.mathquill4quill = function (dependencies) {
 };
 
 export const operators = custom_operators;
-export const mathquill4quill = window.mathquill4quill;
+export const { mathquill4quill } = window;

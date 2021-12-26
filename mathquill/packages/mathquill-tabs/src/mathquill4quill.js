@@ -143,7 +143,7 @@ window.mathquill4quill = deps => {
         mathQuillConfig.handlers = {
           ...handlers,
           edit() {
-            const latex = mqField.latex();
+            const latex = mqField?.latex() || '';
             setLatexInputValue(latex);
             setCacheItem(cacheKey, latex);
           },

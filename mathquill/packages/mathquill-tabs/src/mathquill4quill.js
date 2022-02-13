@@ -255,24 +255,18 @@ window.mathquill4quill = deps => {
         );
       }
       Object.keys(operators).forEach(key => {
-        operators[
-          key
-        ].applyOperatorButtonStyles = function applyOperatorButtonStyles(
-          button,
-        ) {
-          button.setAttribute('class', 'mathquill4quill-operator-button');
-        };
-        operators[
-          key
-        ].applyOperatorContainerStyles = function applyOperatorContainerStyles(
-          container,
-        ) {
-          container.setAttribute(
-            'class',
-            'mathquill4quill-operator-container hidden',
-          );
-          container.setAttribute('id', key);
-        };
+        operators[key].applyOperatorButtonStyles =
+          function applyOperatorButtonStyles(button) {
+            button.setAttribute('class', 'mathquill4quill-operator-button');
+          };
+        operators[key].applyOperatorContainerStyles =
+          function applyOperatorContainerStyles(container) {
+            container.setAttribute(
+              'class',
+              'mathquill4quill-operator-container hidden',
+            );
+            container.setAttribute('id', key);
+          };
       });
 
       function createOperatorButton(element, mqField) {

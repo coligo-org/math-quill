@@ -1,8 +1,12 @@
 {
-  "name": "@coligo-lms/mathquill-tabs",
+  "name": "coligo-math-quill",
   "version": "0.0.1",
   "license": "Apache-2.0",
-  "private": true,
+  "private": false,
+  "main": "dist/mathquill4quill.js",
+  "files": [
+    "src"
+  ],
   "scripts": {
     "build:js": "babel src/mathquill4quill.js src/operators.js -d dist",
     "build:css": "shx cp src/mathquill4quill.css dist/mathquill4quill.css",
@@ -11,7 +15,9 @@
     "transpile:watch": "nodemon",
     "clean": "rm -rf node_modules && rm -rf dist",
     "lint": "eslint --ext .js --ext .jsx src/",
-    "lint:fix": "eslint --fix --ext .js --ext .jsx src/"
+    "lint:fix": "eslint --fix --ext .js --ext .jsx src/",
+    "precommit": "lint-staged",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "*.js": [
@@ -19,26 +25,28 @@
       "eslint"
     ]
   },
-  "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "concurrently": "^4.1.1",
-    "npm-run-all": "^4.1.5",
-    "shx": "^0.3.3",
-    "nodemon": "^2.0.2",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.22.0",
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-import-resolver-lerna": "^1.1.0",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-prettier": "^3.3.1",
-    "lint-staged": "^9.2.5",
-    "prettier": "^2.2.1"
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn  precommit",
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true",
+      "commit-msg": "npx --no-install commitlint --edit $1"
+    }
   },
-  "main": "dist/mathquill4quill.js",
-  "files": [
-    "dist"
-  ]
+  "devDependencies": {
+    "@babel/cli": "^7.17.3",
+    "@babel/core": "^7.17.4",
+    "@babel/preset-env": "^7.16.11",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.9.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.4",
+    "nodemon": "^2.0.15",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.5.1",
+    "shx": "^0.3.4"
+  }
 }

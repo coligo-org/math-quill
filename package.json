@@ -1,5 +1,5 @@
 {
-  "name": "coligo-math-quill",
+  "name": "math-quill-tabs",
   "version": "0.0.1",
   "license": "Apache-2.0",
   "private": false,
@@ -8,6 +8,12 @@
     "dist"
   ],
   "type":"module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coligo-tech/coligo-math-quill"
+  },
+  "homepage": "https://github.com/coligo-tech/coligo-math-quill#readme",
+  "author": "coligo-tech",
   "scripts": {
     "build:js": "babel src/mathquill4quill.js src/operators.js -d dist",
     "build:css": "shx cp src/mathquill4quill.css dist/mathquill4quill.css",

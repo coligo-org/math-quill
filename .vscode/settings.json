@@ -1,0 +1,6 @@
+{
+    "cSpell.ignorePaths": [
+        "package.json",
+        "package-lock.json",
+      ],
+}

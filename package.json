@@ -1,13 +1,13 @@
 {
   "name": "math-quill-tabs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "Apache-2.0",
   "private": false,
   "main": "dist/mathquill4quill.js",
   "files": [
     "dist"
   ],
-  "type":"module",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/coligo-tech/coligo-math-quill"

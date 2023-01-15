@@ -1,4 +1,4 @@
-import CUSTOM_OPERATORS from './operators';
+import CUSTOM_OPERATORS from './operators.js';
 
 window.mathquill4quill = deps => {
   const dependencies = deps || {};

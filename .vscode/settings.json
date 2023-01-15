@@ -3,4 +3,10 @@
         "package.json",
         "package-lock.json",
       ],
+      "cSpell.words": [
+        "historylist",
+        "katex",
+        "mathquill",
+        "scrollables"
+      ],
 }
